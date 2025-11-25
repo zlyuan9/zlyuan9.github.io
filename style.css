@@ -211,3 +211,105 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 2px;
 }
+
+/* Mobile-specific adjustments (only affect small screens) */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Make the accent (name) sit slightly further from the greeting on small screens */
+  .hero-text h1 .accent {
+    margin-left: 0.5rem;
+    display: inline-block;
+  }
+
+  .site-header {
+    padding: 0.75rem 0;
+    border-bottom-width: 1px;
+  }
+
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .brand {
+    font-size: 1.15rem;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    margin-top: 0;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .hero {
+    padding: 3rem 0;
+  }
+
+  .page-header {
+    padding: 1.75rem 0;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .lede {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .links, .project-filter {
+    gap: 0.5rem;
+  }
+
+  .pill {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.15rem;
+  }
+
+  .meta {
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-size: 0.78rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .site-footer {
+    padding: 1rem 0;
+    font-size: 0.85rem;
+  }
+
+  a {
+    word-break: break-word;
+  }
+}
