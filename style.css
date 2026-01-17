@@ -61,10 +61,12 @@ body {
     text-transform: uppercase;
     color: var(--text-muted);
     letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
 }
 
 .file-explorer {
-    padding: 8px 0;
+    padding: 0;
     flex: 1;
     overflow-y: auto;
 }
@@ -78,6 +80,28 @@ body {
     color: var(--text-secondary);
     font-size: 13px;
     user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.folder-name:hover {
+    background-color: var(--bg-hover);
+}
+
+.folder-toggle {
+    font-size: 10px;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.folder.collapsed .folder-toggle {
+    transform: rotate(-90deg);
+}
+
+.folder.collapsed .folder-contents {
+    display: none;
 }
 
 .folder-contents {
@@ -125,11 +149,11 @@ body {
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    min-height: 35px;
+    min-height: 34.5px;
 }
 
 .tab {
-    padding: 8px 16px;
+    padding: 6px 16px;
     background-color: var(--bg-secondary);
     border-right: 1px solid var(--border-color);
     color: var(--text-muted);
@@ -137,11 +161,64 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    position: relative;
+    text-decoration: none;
 }
 
 .tab.active {
     background-color: var(--bg-primary);
     color: var(--text-primary);
+}
+
+.tab-name {
+    flex: 1;
+}
+
+.tab-close {
+    opacity: 0;
+    margin-left: 8px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    border-radius: 3px;
+    transition: opacity 0.2s ease;
+}
+
+.tab:hover .tab-close {
+    opacity: 1;
+}
+
+.tab-close:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Breadcrumb Bar */
+.breadcrumb-bar {
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-height: 22px;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.ascii-art {
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.2;
+    text-align: center;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 /* Editor Area */
@@ -285,7 +362,7 @@ body {
     font-size: 11px;
     color: var(--text-muted);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     min-height: 22px;
 }

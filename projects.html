@@ -19,22 +19,24 @@
       <div class="sidebar-header">Explorer</div>
       <nav class="file-explorer">
         <div class="folder">
-          <div class="folder-name">
+          <div class="folder-name" onclick="toggleFolder(this)">
+            <span class="folder-toggle">▼</span>
             📁 portfolio
           </div>
           <div class="folder-contents">
-            <a href="/index.html" class="file-item">
+            <a href="/index.html" class="file-item" onclick="openTab(event, 'about', 'about.html', '/index.html')">
               <span class="file-icon">📄</span>
               about.html
             </a>
-            <a href="/projects.html" class="file-item active">
+            <a href="/projects.html" class="file-item active" onclick="openTab(event, 'projects', 'projects.html', '/projects.html')">
               <span class="file-icon">📄</span>
               projects.html
             </a>
           </div>
         </div>
         <div class="folder">
-          <div class="folder-name">
+          <div class="folder-name" onclick="toggleFolder(this)">
+            <span class="folder-toggle">▼</span>
             📁 links
           </div>
           <div class="folder-contents">
@@ -58,19 +60,17 @@
     <!-- Main Content Area -->
     <main class="main-content">
       <!-- Tab Bar -->
-      <div class="tab-bar">
-        <a href="/index.html" class="tab">
-          <span class="file-icon">📄</span>
-          about.html
-        </a>
-        <a href="/projects.html" class="tab active">
-          <span class="file-icon">📄</span>
-          projects.html
-        </a>
+      <div class="tab-bar" id="tabBar">
+        <!-- Tabs will be dynamically loaded -->
+      </div>
+
+      <!-- Breadcrumb Bar -->
+      <div class="breadcrumb-bar">
+        <span>portfolio > projects.html</span>
       </div>
 
       <!-- Editor Area -->
-      <div class="editor">
+      <div class="editor" id="editor">
         <div class="content">
           <h1>Projects</h1>
           <p class="lede">A few things I've built or am currently working on.</p>
@@ -140,18 +140,183 @@
 
       <!-- Status Bar -->
       <div class="status-bar">
-        <span>portfolio > projects.html</span>
         <span>UTF-8</span>
       </div>
     </main>
   </div>
 
   <script>
+    // Tab data structure
+    const tabs = [
+      { page: 'about', label: 'about.html', href: '/index.html', icon: '📄' },
+      { page: 'projects', label: 'projects.html', href: '/projects.html', icon: '📄' }
+    ];
+
+    // Initialize tabs on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      loadTabs();
+    });
+
+    function loadTabs() {
+      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
+      const currentPage = window.location.pathname.includes('projects') ? 'projects' : 'about';
+      const tabBar = document.getElementById('tabBar');
+      
+      // If no tabs are open, show current page
+      if (openTabs.length === 0) {
+        openTabs.push(currentPage);
+        localStorage.setItem('openTabs', JSON.stringify(openTabs));
+      }
+      
+      // Render all open tabs
+      tabBar.innerHTML = '';
+      openTabs.forEach(pageName => {
+        const tabData = tabs.find(t => t.page === pageName);
+        if (tabData) {
+          const isActive = pageName === currentPage;
+          const tabEl = document.createElement('a');
+          tabEl.href = tabData.href;
+          tabEl.className = `tab${isActive ? ' active' : ''}`;
+          tabEl.setAttribute('data-page', pageName);
+          
+          const fileIcon = document.createElement('span');
+          fileIcon.className = 'file-icon';
+          fileIcon.textContent = tabData.icon;
+          
+          const tabName = document.createElement('span');
+          tabName.className = 'tab-name';
+          tabName.textContent = tabData.label;
+          
+          const closeBtn = document.createElement('span');
+          closeBtn.className = 'tab-close';
+          closeBtn.textContent = '×';
+          closeBtn.addEventListener('click', function(e) {
+            closeTab(e, pageName);
+          });
+          
+          tabEl.appendChild(fileIcon);
+          tabEl.appendChild(tabName);
+          tabEl.appendChild(closeBtn);
+          tabBar.appendChild(tabEl);
+        }
+      });
+      
+      // Check if we should show empty state
+      if (openTabs.length === 0) {
+        showEmptyState();
+      }
+    }
+
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const overlay = document.querySelector('.mobile-overlay');
       sidebar.classList.toggle('open');
       overlay.classList.toggle('show');
+    }
+
+    function toggleFolder(folderNameElement) {
+      const folder = folderNameElement.parentElement;
+      folder.classList.toggle('collapsed');
+    }
+
+    function openTab(event, pageName, tabLabel, href) {
+      event.preventDefault();
+      
+      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
+      
+      // Add tab if it doesn't exist
+      if (!openTabs.includes(pageName)) {
+        openTabs.push(pageName);
+        localStorage.setItem('openTabs', JSON.stringify(openTabs));
+      }
+      
+      // Navigate to the page
+      window.location.href = href;
+    }
+
+    function closeTab(event, pageName) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
+      const tabIndex = openTabs.indexOf(pageName);
+      const currentPage = window.location.pathname.includes('projects') ? 'projects' : 'about';
+      const wasActive = pageName === currentPage;
+      
+      if (tabIndex > -1) {
+        openTabs.splice(tabIndex, 1);
+        localStorage.setItem('openTabs', JSON.stringify(openTabs));
+      }
+      
+      // If no tabs remain, show empty state
+      if (openTabs.length === 0) {
+        const tabBar = document.getElementById('tabBar');
+        tabBar.innerHTML = '';
+        showEmptyState();
+      } else if (wasActive) {
+        // If we closed the active tab, navigate to the first remaining tab
+        const nextPageName = openTabs[0];
+        const nextTab = tabs.find(t => t.page === nextPageName);
+        if (nextTab) {
+          window.location.href = nextTab.href;
+        }
+      } else {
+        // Just reload to update the tab bar
+        loadTabs();
+      }
+    }
+
+    function showEmptyState() {
+      const editor = document.getElementById('editor');
+      editor.innerHTML = `
+        <div class="empty-state">
+          <pre class="ascii-art">
+            
+⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠀
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⠸⠿⠛⠟⠻⠟⠻⠟⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠻⠿⠿⠿⠿⠿⠻⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠉⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⡴⢆⡤⢢⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠉⠉⠁⠀⠀⠀⠀⠀⠀⠁⠀⣴⡀⢀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠈⠻⠟⠛⠛⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡅
+⠀⠒⠀⠀⠀⠀⠀⠂⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢈⢀⡀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⣼⣿⣧⠈⠰⡄⠐⠀⠐⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⠀⠘⠀⠀⠀⠀⠉⠈⠘⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠚⣀⡀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⣴⠇⠀⠀⠀⠀⠂⠀⡄⠀⠼⠃⣼⣿⣿⣿⣆⠀⣾⠦⠀⢦⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⠈⠉⠉⠉⠁⠈⠉⠉⠉⠉⢉⠉⢈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢏⢥⣼⣤⣄⠠⢨⠅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠁⠀⠀⠀⠂⡈⢡⣾⢃⠔⢨⡔⢪⣿⣿⣿⣿⣷⠀⣤⠐⣬⡁⠀⡆⠆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠀⣰⢈⠄⠐⡄⣢⢔⡒⡠⣚⣷⣂⡀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡱⣾⣭⣧⢩⡥⢌⠁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢀⠉⠁⠀⠀⡄⣾⡀⠀⠀⢸⣿⣿⣿⣿⣿⠀⠁⠀⢸⣿⢠⣿⡀⣠⣴⣄⠀⠁⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢠⡝⠂⣄⢈⣲⣽⣖⣢⡗⡟⣶⡭⠄⠀⠀⠀⠀⠀⠀⠀⠀⠠⡽⣵⢫⣤⠿⣜⢚⡀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⣴⡆⠀⣷⣿⣷⣄⣠⣿⣿⣿⣿⣿⣿⣦⣀⣠⣿⣯⣼⣿⣿⠋⢸⣿⢀⡆⠁⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢐⣶⣶⡶⣖⣻⣶⣾⣷⣟⣷⣟⢏⠄⠀⠀⠀⠀⠀⠀⠀⠀⢈⡻⢿⣻⠉⢯⡡⢘⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠠⢰⣿⡷⢰⣿⣿⣿⣿⣿⣿⢛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣥⡾⢋⣼⣷⠀⢀⠀⠀⠀⠀⢈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠘⢹⠾⠛⣷⢿⣻⢵⡿⡯⢗⠻⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣹⣾⣻⣟⣶⣔⣺⡂⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡀⠀⠀⠀⣾⣿⣷⡘⢿⣿⣿⣿⣿⣿⣿⣿⠿⠿⣿⣿⣿⣿⣿⣿⣿⠟⣠⣥⣶⣿⣿⣿⣧⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠐⢒⢒⠓⠚⣶⣿⣹⠟⠗⡽⠿⣄⠄⠀⠀⠀⠀⠀⠀⠀⠀⠰⢙⠺⣹⣿⣷⢿⣼⡳⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡂⢄⠂⠀⢠⣿⣿⣿⣷⣦⣙⠻⢿⣿⣿⡇⠲⠶⠶⢈⣿⣿⣿⡿⠟⣡⣾⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⡄⠂⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠈⠻⠙⠃⠰⠺⠼⠎⠡⠌⡑⠶⠌⡄⠀⠀⠀⠀⠀⠀⠀⠀⢐⣒⡐⠎⡻⣟⣻⣚⣁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⢀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣶⣬⣉⡛⠓⠶⠶⠟⠛⠋⠉⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⢀⠈⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢀⣒⢒⡂⠀⠒⢠⡲⣴⣶⣴⣦⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠾⢷⡺⣷⢟⡿⢽⠍⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⢸⡀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣀⣀⣤⣶⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢸⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢀⣤⠤⡤⢐⢶⣾⣽⣟⣾⣿⣻⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⢘⣿⣿⣽⢿⣯⡝⣫⠅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⢀⣿⣿⣿⣿⣿⠇⢉⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣾⣇⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢨⣿⢣⣭⢻⣿⣿⣾⣿⣾⣿⣷⠉⡏⠀⠀⠀⠀⠀⠀⠀⠀⢨⣼⡞⣿⣷⣭⡟⠐⡄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢡⡞⢰⣿⣿⣿⣿⡟⢡⣶⣿⣷⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⢨⣥⡤⡼⣞⣭⢿⡵⡯⢿⣽⢧⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⢸⣻⣻⣟⣷⢿⣋⢀⡅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠰⡿⠇⠸⠿⠿⠛⠁⠶⣿⡿⠿⠟⠛⠃⠈⠙⠛⠛⠛⠛⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠸⠿⠞⠻⠹⠟⠻⠟⠟⠻⠹⠆⠬⠧⠀⠀⠀⠀⠀⠀⠀⠀⢸⣽⡻⣿⡿⣾⢿⣬⢥⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡅
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣎⣗⣟⣿⣛⣏⣟⠋⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣀⣀⣀⣀⣀⣀⣀⡀⣀⣀⣀⡀⣈⢈⣤⣤⣍⣌⣩⣍⣅⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠃⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠿⠿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠾⠛⠉⠩⣍⣉⡛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠅
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠈⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠟⠻⠁⢠⣾⣿⣷⠈⣿⣿⠇⠹⠿⠿⠿⠿⠿⠿⠿⠿⠿⠋⠉⢁⠉⣉⠙⣿⡿⠀⠀⠀⡅⢀⠀⡀⢁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
+⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡄⣠⣄⣤⣤⣤⣭⣿⣭⣷⣶⣶⣶⣴⣦⣶⣴⣶⣿⣶⣷⣮⣶⣾⣶⣤⣶⣴⣦⣶⣴⣤⣤⣶⣶⣦⣴⣶⣶⣶⣤⣤⣤⣠⣤⣤⣤⣤⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀
+⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣈⣀⣁⣀⣀⣀⣁⣈⢀⣀⣀⣀⣈⣀⣉⣀⣁⣈⣀⣀⣀⣁⣀⣀⣁⣀⣀⣀⣁⣀⣀⡀⣀⡁⠀⡀⢀⣀⢀⠀⠀⠀⡀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣁⣈⣀⣀
+⠀⠀⠀⠀⠀⠀
+                          
+   No files open (open some!)
+            </pre>
+          </div>
+        `;
     }
   </script>
 </body>
