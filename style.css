@@ -1,315 +1,369 @@
-/* BRUTALIST REDESIGN */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+/* ============================================
+   IDE-Themed Personal Website - Retro 2000s
+   ============================================ */
+
+/* CSS Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 :root {
-  --bg: #0a0a0a;
-  --text: #f0f0f0;
-  --border: #f0f0f0;
-  --muted: #888;
-  --max: 1100px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
+    /* Muted 2000s Color Palette */
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #252526;
+    --bg-sidebar: #2d2d30;
+    --bg-hover: #37373d;
+    --bg-active: #094771;
+    --border-color: #3e3e42;
+    --text-primary: #d4d4d4;
+    --text-secondary: #cccccc;
+    --text-muted: #858585;
+    --accent-blue: #569cd6;
+    --accent-green: #4ec9b0;
+    --accent-yellow: #dcdcaa;
+    --link-color: #569cd6;
+    --link-hover: #4ec9b0;
 }
 
 body {
-  margin: 0;
-  color: var(--text);
-  background: var(--bg);
-  font-family: 'Roboto Mono', monospace;
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"%3E%3Cpath fill="%23333" fill-opacity="0.4" d="M1 3h1v1H1V3zm2-2h1v1H3V1z"%3E%3C/path%3E%3C/svg%3E');
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    overflow-x: hidden;
 }
 
-a {
-  color: var(--text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+/* IDE Container Layout */
+.ide-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
 }
 
-a:hover {
-  background: var(--text);
-  color: var(--bg);
-  text-decoration: none;
+/* Sidebar - File Explorer */
+.sidebar {
+    width: 250px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
 }
 
-.container {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 0 2rem;
+.sidebar-header {
+    padding: 8px 12px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
 }
 
-/* Nav */
-.site-header {
-  border-bottom: 2px solid var(--border);
-  padding: 1rem 0;
+.file-explorer {
+    padding: 8px 0;
+    flex: 1;
+    overflow-y: auto;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.folder {
+    margin-bottom: 4px;
 }
 
-.brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+.folder-name {
+    padding: 4px 12px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    user-select: none;
 }
 
-.nav-links {
-  display: flex;
-  gap: 0.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.folder-contents {
+    padding-left: 8px;
 }
 
-.nav-links a {
-  color: var(--text);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--border);
-  text-transform: uppercase;
-  font-weight: 700;
+.file-item {
+    padding: 4px 12px 4px 24px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: none;
 }
 
-.nav-links a.active, .nav-links a:hover {
-  background: var(--text);
-  color: var(--bg);
+.file-item:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
 }
 
-/* Hero */
-.hero {
-  padding: 6rem 0;
-  border-bottom: 2px solid var(--border);
+.file-item.active {
+    background-color: var(--bg-active);
+    color: var(--text-primary);
 }
 
-.hero-text h1 {
-  /* slightly reduced from the original to be less overpowering */
-  font-size: clamp(2.6rem, 6vw, 5rem);
-  line-height: 1.02;
-  margin: 0 0 1.25rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 2px;
+.file-icon {
+    margin-right: 6px;
+    font-style: normal;
+    font-size: 12px;
 }
 
-.accent {
-  background: var(--text);
-  color: var(--bg);
-  padding: 0.2rem 0.5rem;
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
 }
 
+/* Tab Bar */
+.tab-bar {
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    min-height: 35px;
+}
+
+.tab {
+    padding: 8px 16px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tab.active {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Editor Area */
+.editor {
+    flex: 1;
+    padding: 24px 32px;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+}
+
+/* Content Styling */
+.content h1 {
+    font-size: 32px;
+    color: var(--accent-blue);
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.content h2 {
+    font-size: 24px;
+    color: var(--accent-green);
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.content h3 {
+    font-size: 18px;
+    color: var(--accent-yellow);
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.content p {
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.content a {
+    color: var(--link-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.content a:hover {
+    color: var(--link-hover);
+    border-bottom-color: var(--link-hover);
+}
+
+/* Lede/Intro Text */
 .lede {
-  font-size: 1.2rem;
-  max-width: 70ch;
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 20px;
 }
 
+/* Link Pills/Buttons */
 .links {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .pill {
-  display: inline-block;
-  background: transparent;
-  color: var(--text) !important;
-  text-decoration: none;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--border);
-  text-transform: uppercase;
-  font-weight: 700;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: none;
 }
 
 .pill:hover {
-  background: var(--text);
-  color: var(--bg) !important;
+    background-color: var(--bg-hover);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
 }
 
-/* Page header */
-.page-header {
-  padding: 4rem 0;
-  border-bottom: 2px solid var(--border);
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
 }
 
-/* small spacing between the header divider and the following content (highlights) */
-.page-header + section {
-  margin-top: 1.5rem;
+.project-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 16px;
 }
 
-.page-header h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-  font-weight: 700;
+.project-card h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 16px;
 }
 
-/* Projects grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 4rem 0;
+.project-card h3 a {
+    color: var(--accent-blue);
+    text-decoration: none;
 }
 
-.card {
-  border: 2px solid var(--border);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
+.project-card h3 a:hover {
+    color: var(--link-hover);
+    border-bottom: 1px solid var(--link-hover);
 }
 
-.card h3 {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  font-weight: 700;
+.project-card p {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
 }
 
-.card p {
-  margin: 0 0 1rem;
-}
-
-.meta {
-  margin-top: auto;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.project-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
 }
 
 .tag {
-  font-size: 0.9rem;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--muted);
-  color: var(--muted);
-  text-transform: uppercase;
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--text-muted);
 }
 
-.demo {
-  margin-left: auto;
-  font-weight: 700;
-}
-
-/* Footer */
-.site-footer {
-  padding: 2rem 0;
-  color: var(--muted);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-/* Mobile-specific adjustments (only affect small screens) */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 1rem;
-  }
-
-  /* Make the accent (name) sit slightly further from the greeting on small screens */
-  .hero-text h1 .accent {
-    margin-left: 0.5rem;
-    display: inline-block;
-  }
-
-  .site-header {
-    padding: 0.75rem 0;
-    border-bottom-width: 1px;
-  }
-
-  .nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .brand {
-    font-size: 1.15rem;
-  }
-
-  .nav-links {
+/* Status Bar (Optional) */
+.status-bar {
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--text-muted);
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0.5rem;
-    margin-top: 0;
-  }
+    justify-content: space-between;
+    align-items: center;
+    min-height: 22px;
+}
 
-  .nav-links a {
-    display: block;
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    text-align: center;
-    box-sizing: border-box;
-  }
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s;
+    }
 
-  .hero {
-    padding: 3rem 0;
-  }
+    .sidebar.open {
+        left: 0;
+    }
 
-  .page-header {
-    padding: 1.75rem 0;
-  }
+    .mobile-toggle {
+        display: block;
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 1001;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 8px 12px;
+        cursor: pointer;
+        font-family: 'Consolas', monospace;
+        font-size: 13px;
+    }
 
-  .page-header h1 {
-    font-size: 2rem;
-  }
+    .mobile-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+    }
 
-  .lede {
-    font-size: 1rem;
-    max-width: 100%;
-  }
+    .mobile-overlay.show {
+        display: block;
+    }
 
-  .links, .project-filter {
-    gap: 0.5rem;
-  }
+    .editor {
+        padding: 16px 20px;
+        padding-top: 50px;
+    }
+}
 
-  .pill {
-    padding: 0.5rem 0.9rem;
-    font-size: 0.9rem;
-  }
+@media (min-width: 769px) {
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1.5rem 0;
-  }
+    .mobile-toggle,
+    .mobile-overlay {
+        display: none;
+    }
+}
 
-  .card {
-    padding: 1rem;
-  }
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
 
-  .card h3 {
-    font-size: 1.15rem;
-  }
+::-webkit-scrollbar-track {
+    background-color: var(--bg-primary);
+}
 
-  .meta {
-    gap: 0.4rem;
-  }
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-hover);
+    border: 1px solid var(--border-color);
+}
 
-  .tag {
-    font-size: 0.78rem;
-    padding: 0.2rem 0.5rem;
-  }
-
-  .site-footer {
-    padding: 1rem 0;
-    font-size: 0.85rem;
-  }
-
-  a {
-    word-break: break-word;
-  }
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
 }

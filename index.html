@@ -1,56 +1,123 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>About Me</title>
+  <title>Colin Zhao - About</title>
   <link rel="stylesheet" href="/style.css" />
 </head>
+
 <body>
-  <header class="site-header">
-    <nav class="nav container">
-      <a class="brand" href="/">Colin Zhao</a>
-      <ul class="nav-links">
-        <li><a class="active" href="/">Home</a></li>
-        <li><a href="/projects.html">Projects</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Mobile Toggle -->
+  <button class="mobile-toggle" onclick="toggleSidebar()">☰ Files</button>
+  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
 
-  <main class="container hero">
-    <div class="hero-text">
-      <h1>Hi, I'm Colin.</h1>
-      <p class="lede">
-        Sophomore at Penn, studying Computer Science and Economics.
-        Coder and problem-solver.
-      </p>
+  <div class="ide-container">
+    <!-- Sidebar File Explorer -->
+    <aside class="sidebar">
+      <div class="sidebar-header">Explorer</div>
+      <nav class="file-explorer">
+        <div class="folder">
+          <div class="folder-name">
+            📁 portfolio
+          </div>
+          <div class="folder-contents">
+            <a href="/index.html" class="file-item active">
+              <span class="file-icon">📄</span>
+              about.html
+            </a>
+            <a href="/projects.html" class="file-item">
+              <span class="file-icon">📄</span>
+              projects.html
+            </a>
+          </div>
+        </div>
+        <div class="folder">
+          <div class="folder-name">
+            📁 links
+          </div>
+          <div class="folder-contents">
+            <a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener" class="file-item">
+              <span class="file-icon">🔗</span>
+              linkedin
+            </a>
+            <a href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener" class="file-item">
+              <span class="file-icon">📋</span>
+              resume.pdf
+            </a>
+            <a href="mailto:colinz@sas.upenn.edu" class="file-item">
+              <span class="file-icon">📧</span>
+              email
+            </a>
+          </div>
+        </div>
+      </nav>
+    </aside>
 
-      <p>
-        Summer 2025, I worked at <a href="https://antalpha.com/about-us" target="_blank" rel="noopener">Antalpha</a>, deploying GPU clusters to run AI models and maintaining them with agentic AI.
-        I'm also a founding engineer at <a href="https://collegize.ai" target="_blank" rel="noopener">Collegize</a>, building LLM-powered tools for college applicants.
-      </p>
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <a href="/index.html" class="tab active">
+          <span class="file-icon">📄</span>
+          about.html
+        </a>
+        <a href="/projects.html" class="tab">
+          <span class="file-icon">📄</span>
+          projects.html
+        </a>
+      </div>
 
-      <p>
-        At Penn, I'm a researcher at Penn Medicine's <a href="https://penn-rail.github.io/rail-lab-website/" target="_blank" rel="noopener">Radiology AI Implementation Lab</a>, building agentic AI workflows to analyze and produce radiology reports under <a href="https://www.med.upenn.edu/apps/faculty/index.php/g334/p18472" target="_blank" rel="noopener">Tessa Cook</a>.
-        At the same time, I volunteer for the <a href="https://www.barnesfoundation.org/" target="_blank" rel="noopener">Barnes Foundation</a>, helping with their GIS and mapping projects. 
-      </p>
+      <!-- Editor Area -->
+      <div class="editor">
+        <div class="content">
+          <h1>Hi, I'm Colin.</h1>
+          <p class="lede">
+            Sophomore at Penn, studying Computer Science and Economics.
+            Coder and problem-solver.
+          </p>
 
-      <p>
-        When I'm not coding, I enjoy taekwondo, weightlifting, reading manga, and cooking.
-      </p>
+          <p>
+            Summer 2025, I worked at <a href="https://antalpha.com/about-us" target="_blank"
+              rel="noopener">Antalpha</a>,
+            deploying GPU clusters to run AI models and maintaining them with agentic AI.
+            I'm also a founding engineer at <a href="https://collegize.ai" target="_blank" rel="noopener">Collegize</a>,
+            building LLM-powered tools for college applicants.
+          </p>
 
-      <p class="links">
-        <a class="pill" href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener">Resume</a>
-        <a class="pill" href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="pill" href="mailto:colinz@sas.upenn.edu">Email</a>
-      </p>
-    </div>
+          <p>
+            At Penn, I do research under <a href="https://vincen.tl/" target="_blank" rel="noopener">Vincent
+              Liu</a>, building fast, agentic AI browsers that combine new ML architectures with high-performance model
+            serving for web and multimodal tasks. I'm also a researcher at Penn Medicine's <a
+              href="https://penn-rail.github.io/website/research/" target="_blank" rel="noopener">Radiology AI
+              Implementation Lab</a>, building pipelines to analyze and produce radiology reports under <a
+              href="https://www.med.upenn.edu/apps/faculty/index.php/g334/p18472" target="_blank" rel="noopener">Tessa
+              Cook</a>.
+          </p>
 
-  </main>
+          <p>
+            When I'm not coding, I enjoy taekwondo, weightlifting, and reading manga.
+          </p>
+        </div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span>portfolio > about.html</span>
+        <span>UTF-8</span>
+      </div>
+    </main>
+  </div>
 
   <script>
-    const y = document.getElementById("year");
-    if (y) y.textContent = new Date().getFullYear();
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('show');
+    }
   </script>
 </body>
+
 </html>
