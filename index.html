@@ -231,6 +231,17 @@
     }
 
     function showEmptyState() {
+      // Remove active class from all sidebar items
+      document.querySelectorAll('.file-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      // Clear breadcrumbs
+      const breadcrumbBar = document.querySelector('.breadcrumb-bar');
+      if (breadcrumbBar) {
+        breadcrumbBar.innerHTML = '<span></span>';
+      }
+      
       const editor = document.getElementById('editor');
       editor.innerHTML = `
         <div class="empty-state">
