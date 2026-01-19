@@ -9,6 +9,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css" />
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRCV5WTVQ0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WRCV5WTVQ0');
+  </script>
+  
+  <style>
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+    }
+    #visitorCount {
+      color: #858585;
+    }
+  </style>
 </head>
 
 <body>
@@ -107,6 +127,7 @@
 
       <!-- Status Bar -->
       <div class="status-bar">
+        <span id="visitorCount" style="display: none;"></span>
         <span>UTF-8</span>
       </div>
     </main>
@@ -295,6 +316,37 @@
           </div>
         `;
     }
+  </script>
+
+  <!-- Visitor Counter Script -->
+  <script>
+    (function() {
+      const counterElement = document.getElementById('visitorCount');
+      let isVisible = false;
+      
+      // Use counterapi.dev (more reliable than countapi.xyz)
+      const apiUrl = 'https://api.counterapi.dev/v1/colinzhao-portfolio/visits/up';
+      
+      // Increment visit count
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          counterElement.textContent = `Visits: ${data.count}`;
+        })
+        .catch(err => {
+          console.log('Visit counter unavailable:', err);
+          counterElement.textContent = 'Visits: --';
+        });
+      
+      // Toggle counter visibility with Ctrl+Shift+V (Cmd+Shift+V on Mac)
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'V') {
+          e.preventDefault();
+          isVisible = !isVisible;
+          counterElement.style.display = isVisible ? 'inline' : 'none';
+        }
+      });
+    })();
   </script>
 </body>
 
