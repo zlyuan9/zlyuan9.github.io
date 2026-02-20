@@ -44,15 +44,15 @@
         <div class="folder">
           <div class="folder-name" onclick="toggleFolder(this)">
             <span class="folder-toggle">▼</span>
-            📁 portfolio
+             portfolio
           </div>
           <div class="folder-contents">
             <a href="/index.html" class="file-item" onclick="openTab(event, 'about', 'about.html', '/index.html')">
-              <span class="file-icon">📄</span>
+              <span class="file-icon"></span>
               about.html
             </a>
             <a href="/projects.html" class="file-item active" onclick="openTab(event, 'projects', 'projects.html', '/projects.html')">
-              <span class="file-icon">📄</span>
+              <span class="file-icon"></span>
               projects.html
             </a>
           </div>
@@ -60,19 +60,19 @@
         <div class="folder">
           <div class="folder-name" onclick="toggleFolder(this)">
             <span class="folder-toggle">▼</span>
-            📁 links
+             links
           </div>
           <div class="folder-contents">
             <a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener" class="file-item">
-              <span class="file-icon">🔗</span>
+              <span class="file-icon"></span>
               linkedin
             </a>
             <a href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener" class="file-item">
-              <span class="file-icon">📋</span>
+              <span class="file-icon"></span>
               resume.pdf
             </a>
             <a href="mailto:colinz@sas.upenn.edu" class="file-item">
-              <span class="file-icon">📧</span>
+              <span class="file-icon"></span>
               email
             </a>
           </div>
@@ -110,12 +110,22 @@
             </article>
 
             <article class="project-card">
+              <h3><a href="https://dsl.cis.upenn.edu/" target="_blank" rel="noopener">Agentic Browser
+                  Research</a></h3>
+              <p>Building tougher browser benchmarks and custom CUDA kernels for optimized LLM inference.</p>
+              <div class="project-tags">
+                <span class="tag">LLMs</span>
+                <span class="tag">Python</span>
+              </div>
+            </article>
+
+            <article class="project-card">
               <h3><a href="https://penn-rail.github.io/website/research/" target="_blank" rel="noopener">Penn Medicine
                   Research</a></h3>
               <p>Agentic AI orchestration system using MedGemma, with a staged reasoning chain to produce high-quality
                 structured reports.</p>
               <div class="project-tags">
-                <span class="tag">LLMs</span>
+                <span class="tag">CUDA</span>
                 <span class="tag">Python</span>
               </div>
             </article>
@@ -172,8 +182,8 @@
   <script>
     // Tab data structure
     const tabs = [
-      { page: 'about', label: 'about.html', href: '/index.html', icon: '📄' },
-      { page: 'projects', label: 'projects.html', href: '/projects.html', icon: '📄' }
+      { page: 'about', label: 'about.html', href: '/index.html', icon: '' },
+      { page: 'projects', label: 'projects.html', href: '/projects.html', icon: '' }
     ];
 
     // Initialize tabs on page load
