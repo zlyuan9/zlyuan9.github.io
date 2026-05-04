@@ -34,13 +34,17 @@ body {
     color: var(--text-primary);
     background-color: var(--bg-primary);
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 /* IDE Container Layout */
 .ide-container {
     display: flex;
-    min-height: 100vh;
+    flex: 1;
     width: 100%;
+    overflow: hidden;
 }
 
 /* Activity Bar (far-left icon strip) */
@@ -426,6 +430,8 @@ body {
     justify-content: space-between;
     align-items: center;
     min-height: 22px;
+    flex-shrink: 0;
+    width: 100%;
 }
 
 .status-left,
