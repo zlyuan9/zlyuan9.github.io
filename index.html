@@ -22,10 +22,6 @@
   </script>
   
   <style>
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
-    }
     #visitorCount {
       color: #858585;
     }
@@ -107,9 +103,9 @@
           <h1>Hi, I'm Colin.</h1>
 
           <p>
-            I'm a sophomore studying computer science at the University of Pennsylvania and an intern at
+            I'm a sophomore studying computer science at the University of Pennsylvania and enjoy working on problems in agentic AI and RL. Also, I'm currently an engineer at
             <a href="https://refresh.dev/" target="_blank" rel="noopener">Refresh</a>, where I work on pipelines for
-            building environments for agents. I enjoy working on problems in agentic AI and RL.
+            building environments for agents. 
           </p>
 
           <p>
@@ -121,15 +117,25 @@
           </p>
 
           <p>
-            When I'm not coding, I enjoy taekwondo, lifting, and reading manga.
+            When I'm not coding, I enjoy taekwondo, lifting, and reading manga.<span class="blinking-cursor"></span>
           </p>
         </div>
       </div>
 
       <!-- Status Bar -->
       <div class="status-bar">
-        <span id="visitorCount" style="display: none;"></span>
-        <span>UTF-8</span>
+        <div class="status-left">
+          <span class="status-branch" title="main">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+            main
+          </span>
+          <span id="visitorCount" style="display: none;"></span>
+        </div>
+        <div class="status-right">
+          <span class="status-item">Ln 1, Col 1</span>
+          <span class="status-item">HTML</span>
+          <span class="status-item">UTF-8</span>
+        </div>
       </div>
     </main>
   </div>

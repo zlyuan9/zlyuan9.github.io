@@ -43,6 +43,51 @@ body {
     width: 100%;
 }
 
+/* Activity Bar (far-left icon strip) */
+.activity-bar {
+    width: 48px;
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+    flex-shrink: 0;
+}
+
+.activity-bar-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 22px;
+    position: relative;
+    opacity: 0.6;
+}
+
+.activity-bar-icon:hover {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.activity-bar-icon.active {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.activity-bar-icon.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background-color: var(--text-primary);
+}
+
 /* Sidebar - File Explorer */
 .sidebar {
     width: 250px;
@@ -354,7 +399,23 @@ body {
     color: var(--text-muted);
 }
 
-/* Status Bar (Optional) */
+/* Blinking Cursor */
+.blinking-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background-color: var(--text-primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Status Bar */
 .status-bar {
     background-color: var(--bg-secondary);
     border-top: 1px solid var(--border-color);
@@ -362,9 +423,28 @@ body {
     font-size: 11px;
     color: var(--text-muted);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     min-height: 22px;
+}
+
+.status-left,
+.status-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-branch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* Mobile Responsive */
@@ -410,6 +490,10 @@ body {
 
     .mobile-overlay.show {
         display: block;
+    }
+
+    .activity-bar {
+        display: none;
     }
 
     .editor {
