@@ -54,14 +54,6 @@
             </a>
           </div>
         </div>
-        <div class="folder collapsed">
-          <div class="folder-name" onclick="toggleFolder(this)">
-            <span class="folder-toggle">▼</span>
-             blog
-          </div>
-          <div class="folder-contents">
-          </div>
-        </div>
         <div class="folder">
           <div class="folder-name" onclick="toggleFolder(this)">
             <span class="folder-toggle">▼</span>
@@ -105,6 +97,14 @@
 
           <div class="projects-grid">
             <article class="project-card">
+              <h3><a href="https://github.com/zlyuan9/foil" target="_blank" rel="noopener">Foil</a></h3>
+              <p>Reimplmentation of Pangram's technical report; AI-generated text detector using DeBERTa-v3 with iterative hard negative mining. Outperforms GPTZero on checkforai benchmark.</p>
+              <div class="project-tags">
+                <span class="tag">Python</span>
+              </div>
+            </article>
+
+            <article class="project-card">
               <h3><a href="https://github.com/zlyuan9/scoundrel-rl" target="_blank" rel="noopener">Scoundrel RL</a></h3>
               <p>Reinforcement learning environment and agent for the solo card game Scoundrel, trained with MaskablePPO and potential-based reward shaping.</p>
               <div class="project-tags">
@@ -114,8 +114,8 @@
             </article>
 
             <article class="project-card">
-              <h3><a href="https://github.com/zlyuan9/git-commit-finetune" target="_blank" rel="noopener">Commit Message Fine-tune</a></h3>
-              <p>Fine-tune Qwen3-0.6B on personal git history to generate commit messages locally on Apple Silicon with MLX.</p>
+              <h3><a href="https://github.com/zlyuan9/chameleon-finetune" target="_blank" rel="noopener">Chameleon Finetune</a></h3>
+              <p>Qwen3-4B finetune on synthetic chest CT radiology reports with QLoRA SFT and GRPO, using a local judge model for reward scoring.</p>
               <div class="project-tags">
                 <span class="tag">Python</span>
                 <span class="tag">LoRA</span>
@@ -124,11 +124,10 @@
 
             <article class="project-card">
               <h3><a href="https://collegize.ai" target="_blank" rel="noopener">Collegize.ai</a></h3>
-              <p>Founding Engineer, Full-stack college application platform using Next.js and Supabase with various
+              <p>CTO, Full-stack college application platform using Next.js and Supabase with various
                 LLM integrations.</p>
               <div class="project-tags">
                 <span class="tag">Next.js</span>
-                <span class="tag">Supabase</span>
               </div>
             </article>
 
@@ -163,8 +162,16 @@
                 <span class="tag">OpenCV</span>
               </div>
             </article>
+
+            <article class="project-card">
+              <h3><a href="https://github.com/zlyuan9/rl-symbolic-regression" target="_blank" rel="noopener">RL Symbolic Regression</a></h3>
+              <p>Explored if value functions can be compressed into closed-form equations using symbolic regression.</p>
+              <div class="project-tags">
+                <span class="tag">Python</span>
+                <span class="tag">PySR</span>
+              </div>
+            </article>
           </div>
-          <span class="blinking-cursor"></span>
         </div>
       </div>
 
@@ -181,7 +188,7 @@
       <span id="visitorCount" style="display: none;"></span>
     </div>
     <div class="status-right">
-      <span class="status-item">Ln 1, Col 1</span>
+      <span class="status-item" id="cursorPosition">Ln 1, Col 1</span>
       <span class="status-item">HTML</span>
       <span class="status-item">UTF-8</span>
     </div>
@@ -402,6 +409,7 @@
       });
     })();
   </script>
+  <script src="/editor.js"></script>
 </body>
 
 </html>

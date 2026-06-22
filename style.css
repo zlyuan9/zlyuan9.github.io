@@ -39,6 +39,10 @@ body {
     height: 100vh;
 }
 
+em, i {
+    font-style: normal;
+}
+
 /* IDE Container Layout */
 .ide-container {
     display: flex;
@@ -276,6 +280,11 @@ body {
     padding: 24px 32px;
     overflow-y: auto;
     background-color: var(--bg-primary);
+}
+
+.editor .content[contenteditable] {
+    outline: none;
+    caret-color: var(--text-primary);
 }
 
 /* Content Styling */
