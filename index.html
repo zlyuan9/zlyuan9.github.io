@@ -370,6 +370,8 @@
           const editorRect = editor.getBoundingClientRect();
           cursor.style.left = (rect.right - editorRect.left) + 'px';
           cursor.style.top = (rect.top - editorRect.top) + 'px';
+          const lineHeight = parseFloat(getComputedStyle(lastP).lineHeight) || parseFloat(getComputedStyle(lastP).fontSize) * 1.4;
+          cursor.style.height = lineHeight + 'px';
         }
       }
 
@@ -388,6 +390,11 @@
         const editorRect = editor.getBoundingClientRect();
         cursor.style.left = (rect.left - editorRect.left) + 'px';
         cursor.style.top = (rect.top - editorRect.top) + 'px';
+
+        // Match cursor height to the line height of the element
+        const el = sel.anchorNode.nodeType === 3 ? sel.anchorNode.parentElement : sel.anchorNode;
+        const lineHeight = parseFloat(getComputedStyle(el).lineHeight) || parseFloat(getComputedStyle(el).fontSize) * 1.4;
+        cursor.style.height = lineHeight + 'px';
 
         // Update Ln/Col
         const contentEl = editor.querySelector('.content') || editor;

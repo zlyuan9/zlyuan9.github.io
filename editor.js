@@ -121,7 +121,15 @@
 
     const refresh = () => updateCursorStatus(content, positionEl);
 
-    content.addEventListener('click', refresh);
+    content.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (link) {
+        e.preventDefault();
+        window.open(link.href, link.target || '_self');
+        return;
+      }
+      refresh();
+    });
     content.addEventListener('keyup', refresh);
     content.addEventListener('keydown', (e) => {
       if (!isNavigationKey(e.key)) e.preventDefault();

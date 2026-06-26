@@ -416,7 +416,6 @@ em, i {
 .blinking-cursor {
     position: absolute;
     width: 1.5px;
-    height: 1.2em;
     background-color: var(--text-primary);
     animation: blink 1s step-end infinite;
     pointer-events: none;
