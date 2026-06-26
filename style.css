@@ -10,25 +10,25 @@
 }
 
 :root {
-    /* Muted 2000s Color Palette */
-    --bg-primary: #1e1e1e;
-    --bg-secondary: #252526;
-    --bg-sidebar: #2d2d30;
-    --bg-hover: #37373d;
-    --bg-active: #094771;
-    --border-color: #3e3e42;
-    --text-primary: #d4d4d4;
+    /* VS Code Dark Modern Palette */
+    --bg-primary: #1f1f1f;
+    --bg-secondary: #181818;
+    --bg-sidebar: #181818;
+    --bg-hover: #313131;
+    --bg-active: #0078d4;
+    --border-color: #2b2b2b;
+    --text-primary: #cccccc;
     --text-secondary: #cccccc;
-    --text-muted: #858585;
+    --text-muted: #7f7f7f;
     --accent-blue: #569cd6;
     --accent-green: #4ec9b0;
     --accent-yellow: #dcdcaa;
-    --link-color: #569cd6;
+    --link-color: #3794ff;
     --link-hover: #4ec9b0;
 }
 
 body {
-    font-family: 'IBM Plex Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-primary);
@@ -293,7 +293,7 @@ em, i {
     color: var(--accent-blue);
     margin-bottom: 16px;
     font-weight: 600;
-    font-family: 'Consolas', 'Monaco', monospace;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
 }
 
 .content h2 {
@@ -414,13 +414,12 @@ em, i {
 
 /* Blinking Cursor */
 .blinking-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.1em;
+    position: absolute;
+    width: 1.5px;
+    height: 1.2em;
     background-color: var(--text-primary);
-    margin-left: 2px;
-    vertical-align: text-bottom;
     animation: blink 1s step-end infinite;
+    pointer-events: none;
 }
 
 @keyframes blink {
@@ -488,7 +487,7 @@ em, i {
         color: var(--text-primary);
         padding: 8px 12px;
         cursor: pointer;
-        font-family: 'Consolas', monospace;
+        font-family: 'JetBrains Mono', monospace;
         font-size: 13px;
     }
 

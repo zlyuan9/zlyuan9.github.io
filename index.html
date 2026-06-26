@@ -8,7 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23111'/><text x='50' y='72' font-family='monospace' font-size='64' font-weight='600' fill='%23e0e0e0' text-anchor='middle'>z</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css" />
   
   <!-- Google tag (gtag.js) -->
@@ -91,24 +91,27 @@
 
       <!-- Editor Area -->
       <div class="editor" id="editor">
+        <span class="blinking-cursor"></span>
         <div class="content">
-          <h1>Hi, I'm Colin.</h1>
+          <h1>Colin Zhao</h1>
 
           <p>
-            I'm a junior studying computer science at the University of Pennsylvania and enjoy working on problems in RL and agentic AI.       I'm currently a MTS intern at
-            <a href="https://refresh.dev/" target="_blank" rel="noopener">Refresh</a>, where I work on building training gyms for agents. 
+            I study CS at Penn, mainly interested in self-improving models/agents, evals and environments, and RL.
           </p>
 
           <p>
-            Previously, I was the CTO at <a href="https://collegize.ai" target="_blank"
-              rel="noopener">Collegize</a>, making LLM-powered college application tools for over 5000 users. At Penn, I conducted
-            research under <a href="https://www.med.upenn.edu/apps/faculty/index.php/g275/p18472" target="_blank"
-              rel="noopener">Tessa Cook</a> developed a SoTA self-improving agent framework and helped integrate AI into radiology workflows, and built environments for
-            computer use agents under <a href="https://vincen.tl/" target="_blank" rel="noopener">Vincent Liu</a>.
+            Currently, I'm a MTS intern at
+            <a href="https://refresh.dev/" target="_blank" rel="noopener">Refresh</a>, building evals for agents.
+            Previously, I conducted research with <a href="https://www.med.upenn.edu/apps/faculty/index.php/g275/p18472" target="_blank"
+              rel="noopener">Tessa Cook</a> on self-improving agent frameworks for radiology, and built browser-use benchmarks under <a href="https://vincen.tl/" target="_blank" rel="noopener">Vincent Liu</a>.
           </p>
 
           <p>
-            When I'm not coding, I enjoy taekwondo, lifting, and reading manga.<span class="blinking-cursor"></span>
+            When I'm not coding, I enjoy taekwondo, lifting and reading manga.
+          </p>
+
+          <p>
+            Feel free to check out my projects <a href="/projects.html">here</a>!
           </p>
         </div>
       </div>
@@ -126,7 +129,7 @@
       <span id="visitorCount" style="display: none;"></span>
     </div>
     <div class="status-right">
-      <span class="status-item">Ln 1, Col 1</span>
+      <span class="status-item" id="cursorPosition">Ln 1, Col 1</span>
       <span class="status-item">HTML</span>
       <span class="status-item">UTF-8</span>
     </div>
@@ -344,6 +347,58 @@
           isVisible = !isVisible;
           counterElement.style.display = isVisible ? 'inline' : 'none';
         }
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      const editor = document.getElementById('editor');
+      const cursorPos = document.getElementById('cursorPosition');
+      const cursor = document.querySelector('.blinking-cursor');
+
+      editor.style.position = 'relative';
+
+      // Position cursor at end of last text node on load
+      const lastP = editor.querySelector('.content p:last-child');
+      if (lastP) {
+        const range = document.createRange();
+        range.selectNodeContents(lastP);
+        range.collapse(false);
+        const rect = range.getClientRects()[0];
+        if (rect) {
+          const editorRect = editor.getBoundingClientRect();
+          cursor.style.left = (rect.right - editorRect.left) + 'px';
+          cursor.style.top = (rect.top - editorRect.top) + 'px';
+        }
+      }
+
+      editor.addEventListener('click', function(e) {
+        if (e.target.closest('a')) return;
+
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+
+        // Get position of the caret
+        const range = sel.getRangeAt(0).cloneRange();
+        range.collapse(true);
+        const rect = range.getClientRects()[0];
+        if (!rect) return;
+
+        const editorRect = editor.getBoundingClientRect();
+        cursor.style.left = (rect.left - editorRect.left) + 'px';
+        cursor.style.top = (rect.top - editorRect.top) + 'px';
+
+        // Update Ln/Col
+        const contentEl = editor.querySelector('.content') || editor;
+        const measureRange = document.createRange();
+        measureRange.selectNodeContents(contentEl);
+        measureRange.setEnd(sel.anchorNode, sel.anchorOffset);
+        const textBefore = measureRange.toString();
+        const lines = textBefore.split('\n');
+        cursorPos.textContent = `Ln ${lines.length}, Col ${lines[lines.length - 1].length + 1}`;
+
+        sel.removeAllRanges();
       });
     })();
   </script>
