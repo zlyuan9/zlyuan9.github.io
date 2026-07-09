@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>zlyuan — 真珠の門</title>
+  <title>zlyuan — blog</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111111'/><text x='50' y='74' font-family='serif' font-size='72' font-style='italic' fill='%23ffffff' text-anchor='middle'>z</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,9 +21,9 @@
   </script>
 </head>
 
-<body data-page="about">
+<body data-page="blog">
 
-  <!-- ===== Top bar: workspace tags (nav) + status + theme toggle ===== -->
+  <!-- ===== Top bar ===== -->
   <div id="bar">
     <nav id="tags"></nav>
     <div id="bar-right">
@@ -51,53 +51,29 @@
         <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
       </svg>
     </div>
+    <div class="kanji-text" aria-label="赵李元">赵李元</div>
   </div>
 
-  <!-- ===== Content windows ===== -->
+  <!-- ===== Content window ===== -->
   <main id="desktop">
     <section class="win">
       <div class="win-title">
-        <span>about</span>
+        <span>blog</span>
         <span class="win-dots">— □ ×</span>
       </div>
       <div class="win-body">
-        <div class="content">
-          <h1>Colin Zhao</h1>
+        <div class="content markdown">
+          <h1>Blog</h1>
+          <p class="post-meta">notes on agents, evals, and whatever else.</p>
 
-          <p>
-            I study CS at Penn, mainly focused on AI alignment, evals and environments, and RL.
-          </p>
-
-          <p>
-            Currently, I'm a MTS intern at
-            <a href="https://refresh.dev/" target="_blank" rel="noopener">Refresh</a>, building harnesses and evals for computer-use agents.
-            Previously, I conducted research with <a href="https://www.med.upenn.edu/apps/faculty/index.php/g275/p18472" target="_blank"
-              rel="noopener">Tessa Cook</a> on self-improving agent frameworks for radiology, and built browser-use benchmarks under <a href="https://vincen.tl/" target="_blank" rel="noopener">Vincent Liu</a>.
-          </p>
-
-          <p>
-            When I'm not coding, I enjoy taekwondo, reading manga, and lifting.
-          </p>
-
-          <p>
-            Feel free to check out my work <a href="/projects.html">here</a>!
-          </p>
+          <ul class="post-list">
+            <li>
+              <a href="/blog/building-evals-for-agents.html">Building evals for agents</a>
+              <span class="post-date">2026-06</span>
+              <p>Why most agent benchmarks fail, and the three properties I look for in one that doesn't.</p>
+            </li>
+          </ul>
         </div>
-      </div>
-    </section>
-
-    <section class="win win-contact">
-      <div class="win-title">
-        <span>contact</span>
-        <span class="win-dots">— □ ×</span>
-      </div>
-      <div class="win-body">
-        <ul class="link-list">
-          <li><a href="https://github.com/zlyuan9" target="_blank" rel="noopener"><span class="lk">github</span><span class="lv">@zlyuan9</span></a></li>
-          <li><a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener"><span class="lk">linkedin</span><span class="lv">in/zhao-colin</span></a></li>
-          <li><a href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener"><span class="lk">resume</span><span class="lv">pdf ↗</span></a></li>
-          <li><a href="mailto:colinz@sas.upenn.edu"><span class="lk">email</span><span class="lv">colinz@sas.upenn.edu</span></a></li>
-        </ul>
       </div>
     </section>
   </main>

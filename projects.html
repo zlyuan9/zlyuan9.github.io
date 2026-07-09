@@ -4,399 +4,131 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>zlyuan</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%23111'/><text x='50' y='72' font-family='monospace' font-size='64' font-weight='600' fill='%23e0e0e0' text-anchor='middle'>z</text></svg>" />
+  <title>zlyuan — projects</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23111111'/><text x='50' y='74' font-family='serif' font-size='72' font-style='italic' fill='%23ffffff' text-anchor='middle'>z</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css" />
-  
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WRCV5WTVQ0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-WRCV5WTVQ0');
   </script>
-  
-  <style>
-    #visitorCount {
-      color: #858585;
-    }
-  </style>
 </head>
 
-<body>
-  <!-- Mobile Toggle -->
-  <button class="mobile-toggle" onclick="toggleSidebar()">☰ Files</button>
-  <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+<body data-page="projects">
 
-  <div class="ide-container">
-    <!-- Sidebar File Explorer -->
-    <aside class="sidebar">
-      <div class="sidebar-header">Explorer</div>
-      <nav class="file-explorer">
-        <div class="folder">
-          <div class="folder-name" onclick="toggleFolder(this)">
-            <span class="folder-toggle">▼</span>
-             portfolio
-          </div>
-          <div class="folder-contents">
-            <a href="/index.html" class="file-item" onclick="openTab(event, 'about', 'about.html', '/index.html')">
-              <span class="file-icon"></span>
-              about.html
-            </a>
-            <a href="/projects.html" class="file-item active" onclick="openTab(event, 'projects', 'projects.html', '/projects.html')">
-              <span class="file-icon"></span>
-              projects.html
-            </a>
-          </div>
-        </div>
-        <div class="folder">
-          <div class="folder-name" onclick="toggleFolder(this)">
-            <span class="folder-toggle">▼</span>
-             links
-          </div>
-          <div class="folder-contents">
-            <a href="https://github.com/zlyuan9" target="_blank" rel="noopener" class="file-item">
-              <span class="file-icon"></span>
-              github
-            </a>
-            <a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener" class="file-item">
-              <span class="file-icon"></span>
-              linkedin
-            </a>
-            <a href="mailto:colinz@sas.upenn.edu" class="file-item">
-              <span class="file-icon"></span>
-              email
-            </a>
-          </div>
-        </div>
-      </nav>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Tab Bar -->
-      <div class="tab-bar" id="tabBar">
-        <!-- Tabs will be dynamically loaded -->
+  <!-- ===== Top bar ===== -->
+  <div id="bar">
+    <nav id="tags"></nav>
+    <div id="bar-right">
+      <div id="status">
+        <span id="statusTime">--:--:--</span>
+        <span class="sep date">·</span>
+        <span id="statusDate" class="date">----------</span>
+        <span id="visitorCount" style="display:none"></span>
       </div>
+      <button id="theme-toggle" type="button">☾ dark</button>
+    </div>
+  </div>
 
-      <!-- Breadcrumb Bar -->
-      <div class="breadcrumb-bar">
-        <span>portfolio > projects.html</span>
+  <!-- ===== Desktop decorative art ===== -->
+  <img class="bg-art art-plant" src="/assets/plant.png" alt="" aria-hidden="true">
+  <img class="bg-art art-butterfly" src="/assets/butterfly.png" alt="" aria-hidden="true">
+
+  <div class="corner">
+    <div class="clock-box">
+      <svg viewBox="0 0 100 100" aria-label="analog clock">
+        <g id="clockTicks"></g>
+        <line id="handHour" class="clock-hand" x1="50" y1="50" x2="50" y2="24" stroke-linecap="round"/>
+        <line id="handMin"  class="clock-hand" x1="50" y1="50" x2="50" y2="12" stroke-linecap="round"/>
+        <line id="handSec"  class="clock-hand" x1="50" y1="50" x2="50" y2="8"  stroke-linecap="round"/>
+        <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ===== Content window ===== -->
+  <main id="desktop">
+    <section class="win">
+      <div class="win-title">
+        <span>work</span>
+        <span class="win-dots">— □ ×</span>
       </div>
-
-      <!-- Editor Area -->
-      <div class="editor" id="editor">
+      <div class="win-body">
         <div class="content">
-          <h1>Projects</h1>
+          <h1>Research & Projects</h1>
 
           <div class="projects-grid">
 
             <article class="project-card">
-              <h3><a href="https://github.com/zlyuan9/foil" target="_blank" rel="noopener">Foil</a></h3>
-              <p>Reimplmentation of Pangram's technical report; AI-generated text detector using DeBERTa-v3 with iterative hard negative mining. Outperforms GPTZero on checkforai benchmark.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
+              <div class="pc-title"><a href="https://github.com/zlyuan9/foil" target="_blank" rel="noopener">Foil</a></div>
+              <div class="pc-body">
+                <p>Reimplmentation of Pangram's technical report; AI-generated text detector using DeBERTa-v3 with iterative hard negative mining. Outperforms GPTZero on checkforai benchmark.</p>
+                <div class="project-tags"><span class="tag-pill">Python</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://penn-rail.github.io/website/research/" target="_blank" rel="noopener">Penn Medicine
-                  Research</a></h3>
-              <p>Agentic AI orchestration system using MedGemma, with a staged reasoning chain to produce
-                structured reports (SoTA on PubMedQA).</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
+              <div class="pc-title"><a href="https://penn-rail.github.io/website/research/" target="_blank" rel="noopener">Penn Medicine Research</a></div>
+              <div class="pc-body">
+                <p>Agentic AI orchestration system using MedGemma, with a staged reasoning chain to produce structured reports (SoTA on PubMedQA).</p>
+                <div class="project-tags"><span class="tag-pill">Python</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://github.com/zlyuan9/scoundrel-rl" target="_blank" rel="noopener">Scoundrel RL</a></h3>
-              <p>Reinforcement learning environment and agent for the solo card game Scoundrel, trained with MaskablePPO and potential-based reward shaping.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
-                <span class="tag">Gymnasium</span>
+              <div class="pc-title"><a href="https://github.com/zlyuan9/scoundrel-rl" target="_blank" rel="noopener">Scoundrel RL</a></div>
+              <div class="pc-body">
+                <p>Reinforcement learning environment and agent for the solo card game Scoundrel, trained with MaskablePPO and potential-based reward shaping.</p>
+                <div class="project-tags"><span class="tag-pill">Python</span><span class="tag-pill">Gymnasium</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://github.com/harbor-framework/harbor/pull/1572" target="_blank" rel="noopener">Harbor OSS Contributor</a></h3>
-              <p>Contributed Gemini provider support and deterministic verifiers to Harbor's unified computer-use agent.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
-                <span class="tag">Computer Use</span>
+              <div class="pc-title"><a href="https://github.com/harbor-framework/harbor/pull/1572" target="_blank" rel="noopener">Harbor OSS Contributor</a></div>
+              <div class="pc-body">
+                <p>Contributed Gemini provider support and deterministic verifiers to Harbor's unified computer-use agent (upstreamed from an internal repo).</p>
+                <div class="project-tags"><span class="tag-pill">Python</span><span class="tag-pill">Computer Use</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://github.com/zlyuan9/chameleon-finetune" target="_blank" rel="noopener">Chameleon Finetune</a></h3>
-              <p>Qwen3-4B finetune on synthetic chest CT radiology reports with QLoRA SFT and GRPO, using a local judge model for reward scoring.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
-                <span class="tag">LoRA</span>
+              <div class="pc-title"><a href="https://github.com/zlyuan9/chameleon-finetune" target="_blank" rel="noopener">Chameleon Finetune</a></div>
+              <div class="pc-body">
+                <p>Qwen3-4B finetune on synthetic chest CT radiology reports with QLoRA SFT and GRPO, using a local judge model for reward scoring.</p>
+                <div class="project-tags"><span class="tag-pill">Python</span><span class="tag-pill">LoRA</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://collegize.ai" target="_blank" rel="noopener">Collegize.ai</a></h3>
-              <p>CTO, Full-stack college application platform with >5k users and >100k in sales.</p>
-              <div class="project-tags">
-                <span class="tag">Next.js</span>
+              <div class="pc-title"><a href="https://collegize.ai" target="_blank" rel="noopener">Collegize.ai</a></div>
+              <div class="pc-body">
+                <p>CTO, Full-stack college application platform with &gt;5k users and &gt;100k in sales.</p>
+                <div class="project-tags"><span class="tag-pill">Next.js</span></div>
               </div>
             </article>
 
             <article class="project-card">
-              <h3><a href="https://dsl.cis.upenn.edu/" target="_blank" rel="noopener">Agentic Browser
-                  Research</a></h3>
-              <p>Building tougher browser benchmarks and custom CUDA kernels for optimized LLM inference.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
-                <span class="tag">CUDA</span>
+              <div class="pc-title"><a href="https://dsl.cis.upenn.edu/" target="_blank" rel="noopener">Agentic Browser Research</a></div>
+              <div class="pc-body">
+                <p>Building tougher browser benchmarks and custom CUDA kernels for optimized LLM inference.</p>
+                <div class="project-tags"><span class="tag-pill">Python</span><span class="tag-pill">CUDA</span></div>
               </div>
             </article>
+
           </div>
         </div>
       </div>
+    </section>
+  </main>
 
-    </main>
-  </div>
-
-  <!-- Status Bar -->
-  <div class="status-bar">
-    <div class="status-left">
-      <span class="status-branch" title="main">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
-        main
-      </span>
-      <span id="visitorCount" style="display: none;"></span>
-    </div>
-    <div class="status-right">
-      <span class="status-item" id="cursorPosition">Ln 1, Col 1</span>
-      <span class="status-item">HTML</span>
-      <span class="status-item">UTF-8</span>
-    </div>
-  </div>
-
-  <script>
-    // Tab data structure
-    const tabs = [
-      { page: 'about', label: 'about.html', href: '/index.html', icon: '' },
-      { page: 'projects', label: 'projects.html', href: '/projects.html', icon: '' }
-    ];
-
-    // Initialize tabs on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      loadTabs();
-    });
-
-    function loadTabs() {
-      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
-      const currentPage = window.location.pathname.includes('projects') ? 'projects' : 'about';
-      const tabBar = document.getElementById('tabBar');
-      
-      // If no tabs are open, show current page
-      if (openTabs.length === 0) {
-        openTabs.push(currentPage);
-        localStorage.setItem('openTabs', JSON.stringify(openTabs));
-      }
-      
-      // Render all open tabs
-      tabBar.innerHTML = '';
-      openTabs.forEach(pageName => {
-        const tabData = tabs.find(t => t.page === pageName);
-        if (tabData) {
-          const isActive = pageName === currentPage;
-          const tabEl = document.createElement('a');
-          tabEl.href = tabData.href;
-          tabEl.className = `tab${isActive ? ' active' : ''}`;
-          tabEl.setAttribute('data-page', pageName);
-          
-          const fileIcon = document.createElement('span');
-          fileIcon.className = 'file-icon';
-          fileIcon.textContent = tabData.icon;
-          
-          const tabName = document.createElement('span');
-          tabName.className = 'tab-name';
-          tabName.textContent = tabData.label;
-          
-          const closeBtn = document.createElement('span');
-          closeBtn.className = 'tab-close';
-          closeBtn.textContent = '×';
-          closeBtn.addEventListener('click', function(e) {
-            closeTab(e, pageName);
-          });
-          
-          tabEl.appendChild(fileIcon);
-          tabEl.appendChild(tabName);
-          tabEl.appendChild(closeBtn);
-          tabBar.appendChild(tabEl);
-        }
-      });
-      
-      // Check if we should show empty state
-      if (openTabs.length === 0) {
-        showEmptyState();
-      }
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const overlay = document.querySelector('.mobile-overlay');
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('show');
-    }
-
-    function toggleFolder(folderNameElement) {
-      const folder = folderNameElement.parentElement;
-      folder.classList.toggle('collapsed');
-    }
-
-    function openTab(event, pageName, tabLabel, href) {
-      event.preventDefault();
-      
-      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
-      
-      // Add tab if it doesn't exist
-      if (!openTabs.includes(pageName)) {
-        openTabs.push(pageName);
-        localStorage.setItem('openTabs', JSON.stringify(openTabs));
-      }
-      
-      // Navigate to the page
-      window.location.href = href;
-    }
-
-    function closeTab(event, pageName) {
-      event.preventDefault();
-      event.stopPropagation();
-      
-      const openTabs = JSON.parse(localStorage.getItem('openTabs') || '[]');
-      const tabIndex = openTabs.indexOf(pageName);
-      const currentPage = window.location.pathname.includes('projects') ? 'projects' : 'about';
-      const wasActive = pageName === currentPage;
-      
-      if (tabIndex > -1) {
-        openTabs.splice(tabIndex, 1);
-        localStorage.setItem('openTabs', JSON.stringify(openTabs));
-      }
-      
-      // If no tabs remain, show empty state
-      if (openTabs.length === 0) {
-        const tabBar = document.getElementById('tabBar');
-        tabBar.innerHTML = '';
-        showEmptyState();
-      } else if (wasActive) {
-        // If we closed the active tab, navigate to the first remaining tab
-        const nextPageName = openTabs[0];
-        const nextTab = tabs.find(t => t.page === nextPageName);
-        if (nextTab) {
-          window.location.href = nextTab.href;
-        }
-      } else {
-        // Just reload to update the tab bar
-        loadTabs();
-      }
-    }
-
-    function showEmptyState() {
-      // Remove active class from all sidebar items
-      document.querySelectorAll('.file-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      
-      // Clear breadcrumbs
-      const breadcrumbBar = document.querySelector('.breadcrumb-bar');
-      if (breadcrumbBar) {
-        breadcrumbBar.innerHTML = '<span></span>';
-      }
-      
-      const editor = document.getElementById('editor');
-      editor.innerHTML = `
-        <div class="empty-state">
-          <pre class="ascii-art">
-            
-⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⠀
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⠸⠿⠛⠟⠻⠟⠻⠟⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠻⠿⠿⠿⠿⠿⠻⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⠈⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠉⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⡴⢆⡤⢢⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠉⠉⠁⠀⠀⠀⠀⠀⠀⠁⠀⣴⡀⢀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠈⠻⠟⠛⠛⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡅
-⠀⠒⠀⠀⠀⠀⠀⠂⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢈⢀⡀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⣼⣿⣧⠈⠰⡄⠐⠀⠐⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
-⠀⠘⠀⠀⠀⠀⠉⠈⠘⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠚⣀⡀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⣴⠇⠀⠀⠀⠀⠂⠀⡄⠀⠼⠃⣼⣿⣿⣿⣆⠀⣾⠦⠀⢦⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
-⠈⠉⠉⠉⠁⠈⠉⠉⠉⠉⢉⠉⢈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢏⢥⣼⣤⣄⠠⢨⠅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠁⠀⠀⠀⠂⡈⢡⣾⢃⠔⢨⡔⢪⣿⣿⣿⣿⣷⠀⣤⠐⣬⡁⠀⡆⠆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⠀⣰⢈⠄⠐⡄⣢⢔⡒⡠⣚⣷⣂⡀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡱⣾⣭⣧⢩⡥⢌⠁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢀⠉⠁⠀⠀⡄⣾⡀⠀⠀⢸⣿⣿⣿⣿⣿⠀⠁⠀⢸⣿⢠⣿⡀⣠⣴⣄⠀⠁⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢠⡝⠂⣄⢈⣲⣽⣖⣢⡗⡟⣶⡭⠄⠀⠀⠀⠀⠀⠀⠀⠀⠠⡽⣵⢫⣤⠿⣜⢚⡀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⣴⡆⠀⣷⣿⣷⣄⣠⣿⣿⣿⣿⣿⣿⣦⣀⣠⣿⣯⣼⣿⣿⠋⢸⣿⢀⡆⠁⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢐⣶⣶⡶⣖⣻⣶⣾⣷⣟⣷⣟⢏⠄⠀⠀⠀⠀⠀⠀⠀⠀⢈⡻⢿⣻⠉⢯⡡⢘⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠠⢰⣿⡷⢰⣿⣿⣿⣿⣿⣿⢛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣥⡾⢋⣼⣷⠀⢀⠀⠀⠀⠀⢈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⠘⢹⠾⠛⣷⢿⣻⢵⡿⡯⢗⠻⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣹⣾⣻⣟⣶⣔⣺⡂⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡀⠀⠀⠀⣾⣿⣷⡘⢿⣿⣿⣿⣿⣿⣿⣿⠿⠿⣿⣿⣿⣿⣿⣿⣿⠟⣠⣥⣶⣿⣿⣿⣧⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⠐⢒⢒⠓⠚⣶⣿⣹⠟⠗⡽⠿⣄⠄⠀⠀⠀⠀⠀⠀⠀⠀⠰⢙⠺⣹⣿⣷⢿⣼⡳⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡂⢄⠂⠀⢠⣿⣿⣿⣷⣦⣙⠻⢿⣿⣿⡇⠲⠶⠶⢈⣿⣿⣿⡿⠟⣡⣾⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⡄⠂⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⠈⠻⠙⠃⠰⠺⠼⠎⠡⠌⡑⠶⠌⡄⠀⠀⠀⠀⠀⠀⠀⠀⢐⣒⡐⠎⡻⣟⣻⣚⣁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠈⢀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣶⣬⣉⡛⠓⠶⠶⠟⠛⠋⠉⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⢀⠈⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢀⣒⢒⡂⠀⠒⢠⡲⣴⣶⣴⣦⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠾⢷⡺⣷⢟⡿⢽⠍⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⢸⡀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣀⣀⣤⣶⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢸⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢀⣤⠤⡤⢐⢶⣾⣽⣟⣾⣿⣻⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⢘⣿⣿⣽⢿⣯⡝⣫⠅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⢀⣿⣿⣿⣿⣿⠇⢉⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣾⣇⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢨⣿⢣⣭⢻⣿⣿⣾⣿⣾⣿⣷⠉⡏⠀⠀⠀⠀⠀⠀⠀⠀⢨⣼⡞⣿⣷⣭⡟⠐⡄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢡⡞⢰⣿⣿⣿⣿⡟⢡⣶⣿⣷⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⢨⣥⡤⡼⣞⣭⢿⡵⡯⢿⣽⢧⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⢸⣻⣻⣟⣷⢿⣋⢀⡅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠰⡿⠇⠸⠿⠿⠛⠁⠶⣿⡿⠿⠟⠛⠃⠈⠙⠛⠛⠛⠛⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⠸⠿⠞⠻⠹⠟⠻⠟⠟⠻⠹⠆⠬⠧⠀⠀⠀⠀⠀⠀⠀⠀⢸⣽⡻⣿⡿⣾⢿⣬⢥⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡅
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣎⣗⣟⣿⣛⣏⣟⠋⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠆
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣀⣀⣀⣀⣀⣀⣀⡀⣀⣀⣀⡀⣈⢈⣤⣤⣍⣌⣩⣍⣅⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠃⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠿⠿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠾⠛⠉⠩⣍⣉⡛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠅
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠈⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠟⠻⠁⢠⣾⣿⣷⠈⣿⣿⠇⠹⠿⠿⠿⠿⠿⠿⠿⠿⠿⠋⠉⢁⠉⣉⠙⣿⡿⠀⠀⠀⡅⢀⠀⡀⢁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁
-⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡄⣠⣄⣤⣤⣤⣭⣿⣭⣷⣶⣶⣶⣴⣦⣶⣴⣶⣿⣶⣷⣮⣶⣾⣶⣤⣶⣴⣦⣶⣴⣤⣤⣶⣶⣦⣴⣶⣶⣶⣤⣤⣤⣠⣤⣤⣤⣤⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀
-       ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣈⣀⣁⣀⣀⣀⣁⣈⢀⣀⣀⣀⣈⣀⣉⣀⣁⣈⣀⣀⣀⣁⣀⣀⣁⣀⣀⣀⣁⣀⣀⡀⣀⡁⠀⡀⢀⣀⢀⠀⠀⠀⡀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣁⣈⣀⣀⠀⠀⠀⠀⠀⠀
-                          
-   No files open (open some!)
-            </pre>
-          </div>
-        `;
-    }
-  </script>
-
-  <!-- Visitor Counter Script -->
-  <script>
-    (function() {
-      const counterElement = document.getElementById('visitorCount');
-      let isVisible = false;
-      
-      // Use counterapi.dev (more reliable than countapi.xyz)
-      const apiUrl = 'https://api.counterapi.dev/v1/colinzhao-portfolio/visits/up';
-      
-      // Increment visit count
-      fetch(apiUrl)
-        .then(res => res.json())
-        .then(data => {
-          counterElement.textContent = `Visits: ${data.count}`;
-        })
-        .catch(err => {
-          console.log('Visit counter unavailable:', err);
-          counterElement.textContent = 'Visits: --';
-        });
-      
-      // Toggle counter visibility with Ctrl+Shift+V (Cmd+Shift+V on Mac)
-      document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'V') {
-          e.preventDefault();
-          isVisible = !isVisible;
-          counterElement.style.display = isVisible ? 'inline' : 'none';
-        }
-      });
-    })();
-  </script>
-  <script src="/editor.js"></script>
+  <script src="/app.js"></script>
 </body>
 
 </html>
