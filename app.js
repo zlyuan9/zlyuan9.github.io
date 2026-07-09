@@ -42,8 +42,19 @@
     const btn = document.getElementById('theme-toggle');
     if (btn) btn.addEventListener('click', function () {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
+      const commit = function () {
+        applyTheme(next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      };
+
+      // Circular reveal from the top-right corner sweeping to the bottom-left.
+      // The reveal itself is a pure-CSS clip-path keyframe on the new snapshot
+      // (see style.css) — driving it in CSS avoids the one-frame flash that a
+      // JS-attached animation causes. Falls back to an instant swap where the
+      // View Transitions API is missing or the user prefers reduced motion.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) { commit(); return; }
+      document.startViewTransition(commit);
     });
   }
 

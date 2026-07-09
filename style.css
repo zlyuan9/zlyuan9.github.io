@@ -48,6 +48,31 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
+/* Theme sweep: a circular reveal of the new theme from the top-right corner
+   sweeping to the bottom-left. The old snapshot sits underneath, fully painted;
+   the new snapshot is stacked on top and its clip-path circle grows from the
+   corner via a CSS keyframe (no JS timing gap = no flicker). */
+::view-transition-old(root) {
+  animation: none;              /* old theme holds still underneath */
+  z-index: 1;
+}
+::view-transition-new(root) {
+  animation: theme-sweep 620ms ease-in-out forwards;
+  z-index: 2;
+}
+::view-transition-old(root),
+::view-transition-new(root) { mix-blend-mode: normal; }
+
+@keyframes theme-sweep {
+  from { clip-path: circle(0% at 100% 0%); }
+  to   { clip-path: circle(150% at 100% 0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
+}
+
 a { color: inherit; }
 
 /* ============================================================
