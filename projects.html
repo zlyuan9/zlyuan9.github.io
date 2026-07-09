@@ -23,6 +23,14 @@
 
 <body data-page="projects">
 
+  <!-- Grain filter for the "depth" background art — roughens its smooth edges. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="depthGrain" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" stitchTiles="stitch" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
   <!-- ===== Top bar ===== -->
   <div id="bar">
     <nav id="tags"></nav>
@@ -40,15 +48,26 @@
   <!-- ===== Desktop decorative art ===== -->
   <img class="bg-art art-plant" src="/assets/plant.png" alt="" aria-hidden="true">
   <img class="bg-art art-butterfly" src="/assets/butterfly.png" alt="" aria-hidden="true">
+  <img class="bg-art art-depth" src="/assets/depth_shape.png" alt="" aria-hidden="true">
 
   <div class="corner">
     <div class="clock-box">
       <svg viewBox="0 0 100 100" aria-label="analog clock">
-        <g id="clockTicks"></g>
-        <line id="handHour" class="clock-hand" x1="50" y1="50" x2="50" y2="24" stroke-linecap="round"/>
-        <line id="handMin"  class="clock-hand" x1="50" y1="50" x2="50" y2="12" stroke-linecap="round"/>
-        <line id="handSec"  class="clock-hand" x1="50" y1="50" x2="50" y2="8"  stroke-linecap="round"/>
-        <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
+        <defs>
+          <!-- Grainy ink: fractal noise displaces every stroke edge into gritty,
+               lo-fi ripples reminiscent of a low-res pixel bitmap. -->
+          <filter id="clockGrain" x="-15%" y="-15%" width="130%" height="130%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <g filter="url(#clockGrain)">
+          <g id="clockTicks"></g>
+          <polygon id="handHour" class="clock-hand"/>
+          <polygon id="handMin"  class="clock-hand"/>
+          <polygon id="handSec"  class="clock-hand"/>
+          <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
+        </g>
       </svg>
     </div>
   </div>

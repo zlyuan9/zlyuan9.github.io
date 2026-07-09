@@ -81,76 +81,93 @@
     const h = (now.getHours() % 12) + m / 60;
     setHand('handHour', h / 12, 26, 3.2);
     setHand('handMin', m / 60, 38, 2.4);
-    setHand('handSec', s / 60, 42, 1.0);
+    setHand('handSec', s / 60, 42, 1.6);
   }
+  // Each hand is a tapered triangle: wide near the base, narrowing to a point
+  // at the tip, with the rear vertex anchored at the clock's center.
   function setHand(id, frac, len, width) {
     const el = document.getElementById(id);
     if (!el) return;
     const ang = frac * 2 * Math.PI;
-    el.setAttribute('x2', (50 + len * Math.sin(ang)).toFixed(2));
-    el.setAttribute('y2', (50 - len * Math.cos(ang)).toFixed(2));
-    el.setAttribute('stroke-width', width);
+    const dx = Math.sin(ang), dy = -Math.cos(ang);   // forward (toward tip)
+    const px = Math.cos(ang), py = Math.sin(ang);     // perpendicular
+    const base = len * 0.16;   // how far up the widest point sits
+    const pt = (r, w) =>
+      (50 + dx * r + px * w).toFixed(2) + ',' + (50 + dy * r + py * w).toFixed(2);
+    el.setAttribute('points', [
+      pt(len, 0),        // tip
+      pt(base, -width),  // left shoulder
+      pt(0, 0),          // center
+      pt(base, width)    // right shoulder
+    ].join(' '));
   }
 
-  /* ---- Draggable windows (grab the title bar) ---- */
+  /* ---- Draggable elements (windows via title bar, clock via whole box) ---- */
   let zTop = 20;
+  function makeDraggable(el, handle) {
+    handle.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+
+      // On first drag, lift the element out of flow into free-floating mode,
+      // pinned at its current on-screen spot so it doesn't jump. Leave a
+      // same-size placeholder behind so siblings don't reflow up.
+      if (!el.classList.contains('floating')) {
+        const r = el.getBoundingClientRect();
+        const ph = document.createElement('div');
+        ph.className = 'win-placeholder';
+        ph.style.width = r.width + 'px';
+        ph.style.height = r.height + 'px';
+        el.parentNode.insertBefore(ph, el);
+        el._placeholder = ph;
+        el.style.width = r.width + 'px';
+        el.style.position = 'fixed';
+        el.style.left = r.left + 'px';
+        el.style.top = r.top + 'px';
+        el.style.margin = '0';
+        el.classList.add('floating');
+      }
+      el.style.zIndex = ++zTop;
+
+      const startX = e.clientX, startY = e.clientY;
+      const originLeft = parseFloat(el.style.left);
+      const originTop = parseFloat(el.style.top);
+      handle.setPointerCapture(e.pointerId);
+
+      function move(ev) {
+        let nx = originLeft + (ev.clientX - startX);
+        let ny = originTop + (ev.clientY - startY);
+        const maxX = window.innerWidth - el.offsetWidth;
+        const maxY = window.innerHeight - handle.offsetHeight;
+        nx = Math.max(0, Math.min(nx, Math.max(0, maxX)));
+        ny = Math.max(0, Math.min(ny, Math.max(0, maxY)));
+        el.style.left = nx + 'px';
+        el.style.top = ny + 'px';
+      }
+      function up(ev) {
+        handle.removeEventListener('pointermove', move);
+        handle.removeEventListener('pointerup', up);
+        try { handle.releasePointerCapture(ev.pointerId); } catch (e) {}
+      }
+      handle.addEventListener('pointermove', move);
+      handle.addEventListener('pointerup', up);
+    });
+  }
+
   function initDrag() {
     // Disable dragging on touch / coarse-pointer devices — grabbing the title
     // bar there hijacks scrolling and causes janky behavior.
     const canDrag = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!canDrag) return;
 
+    // Windows drag by their title bar.
     document.querySelectorAll('.win').forEach(function (win) {
       const handle = win.querySelector('.win-title');
-      if (!handle) return;
-
-      handle.addEventListener('pointerdown', function (e) {
-        if (e.button !== 0) return;
-        e.preventDefault();
-
-        // On first drag, lift the window out of flow into free-floating mode,
-        // pinned at its current on-screen spot so it doesn't jump. Leave a
-        // same-size placeholder behind so sibling windows don't reflow up.
-        if (!win.classList.contains('floating')) {
-          const r = win.getBoundingClientRect();
-          const ph = document.createElement('div');
-          ph.className = 'win-placeholder';
-          ph.style.width = r.width + 'px';
-          ph.style.height = r.height + 'px';
-          win.parentNode.insertBefore(ph, win);
-          win._placeholder = ph;
-          win.style.width = r.width + 'px';
-          win.style.position = 'fixed';
-          win.style.left = r.left + 'px';
-          win.style.top = r.top + 'px';
-          win.style.margin = '0';
-          win.classList.add('floating');
-        }
-        win.style.zIndex = ++zTop;
-
-        const startX = e.clientX, startY = e.clientY;
-        const originLeft = parseFloat(win.style.left);
-        const originTop = parseFloat(win.style.top);
-        handle.setPointerCapture(e.pointerId);
-
-        function move(ev) {
-          let nx = originLeft + (ev.clientX - startX);
-          let ny = originTop + (ev.clientY - startY);
-          const maxX = window.innerWidth - win.offsetWidth;
-          const maxY = window.innerHeight - handle.offsetHeight;
-          nx = Math.max(0, Math.min(nx, Math.max(0, maxX)));
-          ny = Math.max(0, Math.min(ny, Math.max(0, maxY)));
-          win.style.left = nx + 'px';
-          win.style.top = ny + 'px';
-        }
-        function up(ev) {
-          handle.removeEventListener('pointermove', move);
-          handle.removeEventListener('pointerup', up);
-          try { handle.releasePointerCapture(ev.pointerId); } catch (e) {}
-        }
-        handle.addEventListener('pointermove', move);
-        handle.addEventListener('pointerup', up);
-      });
+      if (handle) makeDraggable(win, handle);
+    });
+    // The loose clock drags by the whole box.
+    document.querySelectorAll('.clock-box[data-drag]').forEach(function (box) {
+      makeDraggable(box, box);
     });
   }
 

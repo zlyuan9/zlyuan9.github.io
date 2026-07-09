@@ -67,7 +67,21 @@ a { color: inherit; }
 .art-plant    { bottom: 0; left: 0; height: min(90vh, 800px); opacity: 0.12; }
 .art-butterfly{ top: calc(var(--bar-h) + 40px); right: 6vw; width: 74px; opacity: 0.5; }
 
-/* Clock + kanji cluster, bottom-right */
+/* "Symbol of Depth" — concentric arcs radiating from the bottom-right corner.
+   Edges are roughened by an SVG turbulence filter (#depthGrain) so they read
+   gritty/hand-inked rather than vector-smooth, matching the clock. */
+.art-depth {
+  bottom: 0; right: 0;
+  height: min(40vh, 360px);
+  opacity: 0.12;
+  image-rendering: auto;   /* smooth curves, not pixel art */
+  filter: url(#depthGrain) brightness(0);
+}
+/* Dark-on-dark contrast is perceptually weaker, so lift the depth art (and its
+   specks) a bit to keep the grain readable against the dark background. */
+:root[data-theme="dark"] .art-depth { filter: url(#depthGrain) brightness(0) invert(1); opacity: 0.2; }
+
+/* Clock — fixed bottom-right on the projects page. */
 .corner {
   position: fixed;
   right: 26px;
@@ -79,16 +93,18 @@ a { color: inherit; }
   pointer-events: none;
 }
 .clock-box {
-  width: 150px;
-  height: 150px;
+  width: 205px;
+  height: 205px;
   border: 3px solid var(--fg);
   background: var(--panel);
-  padding: 6px;
+  padding: 9px;
+  box-shadow: 5px 5px 0 var(--line);
   pointer-events: auto;
 }
 .clock-box svg { display: block; width: 100%; height: 100%; }
 .clock-face-line { stroke: var(--fg); }
-.clock-hand { stroke: var(--fg); fill: var(--fg); }
+/* Hands are tapered triangles anchored at center: solid ink fill, softened joins. */
+.clock-hand { fill: var(--fg); stroke: var(--fg); stroke-width: 0.3; stroke-linejoin: round; }
 .clock-pin { fill: var(--fg); }
 
 /* ============================================================
@@ -123,7 +139,7 @@ a { color: inherit; }
 }
 .tag .num { font-style: italic; opacity: 0.7; }
 .tag:hover { background: var(--hover); }
-.tag.active { background: var(--chrome-fg); color: var(--chrome-bg); }
+.tag.active { background: var(--bg); color: var(--fg); }
 .tag.active .num { opacity: 1; }
 
 #bar-right {
@@ -163,11 +179,13 @@ a { color: inherit; }
   z-index: 10;
   max-width: 880px;
   margin: 0 auto;
-  padding: 34px 24px 90px;
+  padding: 40px 24px 90px;
+  min-height: calc(100vh - var(--bar-h));
   display: flex;
   flex-direction: column;
+  justify-content: center;   /* float the key windows toward the middle */
   align-items: stretch;
-  gap: 22px;
+  gap: 26px;
 }
 
 /* ---- Window chrome ---- */
@@ -199,6 +217,8 @@ a { color: inherit; }
 @media (hover: hover) and (pointer: fine) {
   .win-title { cursor: grab; touch-action: none; }
   .win-title:active { cursor: grabbing; }
+  .clock-box[data-drag] { cursor: grab; touch-action: none; }
+  .clock-box[data-drag]:active { cursor: grabbing; }
 }
 
 /* ============================================================
@@ -265,6 +285,28 @@ a { color: inherit; }
    Contact window (link list)
    ============================================================ */
 .win-contact { align-self: center; width: 100%; max-width: 420px; }
+
+/* Scatter row: contact bottom-left (nudged a touch left of the about window),
+   clock floating to its right for a loose, "messy desktop" feel. */
+.scatter {
+  display: flex;
+  align-items: center;      /* vertically center the clock w.r.t. contact */
+  gap: 0;
+  flex-wrap: wrap;
+}
+.scatter .win-contact {
+  align-self: center;
+  margin: 0 0 0 24px;       /* left border sits a bit right of the about window's */
+  flex: 0 1 420px;
+}
+/* Region spanning contact's right edge → about's right edge; the clock is
+   centered within it (so it's horizontally centered between those two edges). */
+.clock-loose {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .link-list { list-style: none; margin: 0; padding: 0; }
 .link-list li { border-bottom: 1px solid var(--line); }
 .link-list li:last-child { border-bottom: 0; }
@@ -327,8 +369,9 @@ a { color: inherit; }
    Responsive
    ============================================================ */
 @media (max-width: 900px) {
-  .bg-art, .corner { display: none; }
+  .bg-art, .corner, .clock-loose { display: none; }
   #desktop { padding: 20px 14px 60px; }
+  .scatter .win-contact { margin-left: 0; }
 }
 @media (max-width: 560px) {
   #status .date, #status .sep { display: none; }

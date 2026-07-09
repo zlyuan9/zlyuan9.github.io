@@ -40,18 +40,7 @@
   <!-- ===== Desktop decorative art ===== -->
   <img class="bg-art art-plant" src="/assets/plant.png" alt="" aria-hidden="true">
   <img class="bg-art art-butterfly" src="/assets/butterfly.png" alt="" aria-hidden="true">
-
-  <div class="corner">
-    <div class="clock-box">
-      <svg viewBox="0 0 100 100" aria-label="analog clock">
-        <g id="clockTicks"></g>
-        <line id="handHour" class="clock-hand" x1="50" y1="50" x2="50" y2="24" stroke-linecap="round"/>
-        <line id="handMin"  class="clock-hand" x1="50" y1="50" x2="50" y2="12" stroke-linecap="round"/>
-        <line id="handSec"  class="clock-hand" x1="50" y1="50" x2="50" y2="8"  stroke-linecap="round"/>
-        <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
-      </svg>
-    </div>
-  </div>
+  <img class="bg-art art-depth" src="/assets/depth_shape.png" alt="" aria-hidden="true">
 
   <!-- ===== Content windows ===== -->
   <main id="desktop">
@@ -86,20 +75,44 @@
       </div>
     </section>
 
-    <section class="win win-contact">
-      <div class="win-title">
-        <span>contact</span>
-        <span class="win-dots">— □ ×</span>
+    <div class="scatter">
+      <section class="win win-contact">
+        <div class="win-title">
+          <span>contact</span>
+          <span class="win-dots">— □ ×</span>
+        </div>
+        <div class="win-body">
+          <ul class="link-list">
+            <li><a href="https://github.com/zlyuan9" target="_blank" rel="noopener"><span class="lk">github</span><span class="lv">@zlyuan9</span></a></li>
+            <li><a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener"><span class="lk">linkedin</span><span class="lv">in/zhao-colin</span></a></li>
+            <li><a href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener"><span class="lk">resume</span><span class="lv">pdf ↗</span></a></li>
+            <li><a href="mailto:colinz@sas.upenn.edu"><span class="lk">email</span><span class="lv">colinz@sas.upenn.edu</span></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="clock-loose">
+        <div class="clock-box" data-drag>
+          <svg viewBox="0 0 100 100" aria-label="analog clock">
+            <defs>
+              <!-- Grainy ink: fractal noise displaces every stroke edge into gritty,
+                   lo-fi ripples reminiscent of a low-res pixel bitmap. -->
+              <filter id="clockGrain" x="-15%" y="-15%" width="130%" height="130%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
+            </defs>
+            <g filter="url(#clockGrain)">
+              <g id="clockTicks"></g>
+              <polygon id="handHour" class="clock-hand"/>
+              <polygon id="handMin"  class="clock-hand"/>
+              <polygon id="handSec"  class="clock-hand"/>
+              <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
+            </g>
+          </svg>
+        </div>
       </div>
-      <div class="win-body">
-        <ul class="link-list">
-          <li><a href="https://github.com/zlyuan9" target="_blank" rel="noopener"><span class="lk">github</span><span class="lv">@zlyuan9</span></a></li>
-          <li><a href="https://www.linkedin.com/in/zhao-colin/" target="_blank" rel="noopener"><span class="lk">linkedin</span><span class="lv">in/zhao-colin</span></a></li>
-          <li><a href="/resources/Colin_Zhao_SWE_Resume.pdf" target="_blank" rel="noopener"><span class="lk">resume</span><span class="lv">pdf ↗</span></a></li>
-          <li><a href="mailto:colinz@sas.upenn.edu"><span class="lk">email</span><span class="lv">colinz@sas.upenn.edu</span></a></li>
-        </ul>
-      </div>
-    </section>
+    </div>
   </main>
 
   <script src="/app.js"></script>
