@@ -190,13 +190,16 @@ a { color: inherit; }
   gap: 12px;
   overflow: hidden;
   white-space: nowrap;
-  cursor: grab;
   user-select: none;
-  touch-action: none;
 }
-.win-title:active { cursor: grabbing; }
 .win-title .win-dots { letter-spacing: 2px; opacity: 0.7; }
 .win-body { padding: 22px 26px; position: relative; }
+
+/* Drag affordances only where dragging is enabled (fine pointer, JS-gated). */
+@media (hover: hover) and (pointer: fine) {
+  .win-title { cursor: grab; touch-action: none; }
+  .win-title:active { cursor: grabbing; }
+}
 
 /* ============================================================
    Content typography

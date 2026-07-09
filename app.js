@@ -95,6 +95,11 @@
   /* ---- Draggable windows (grab the title bar) ---- */
   let zTop = 20;
   function initDrag() {
+    // Disable dragging on touch / coarse-pointer devices — grabbing the title
+    // bar there hijacks scrolling and causes janky behavior.
+    const canDrag = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!canDrag) return;
+
     document.querySelectorAll('.win').forEach(function (win) {
       const handle = win.querySelector('.win-title');
       if (!handle) return;
