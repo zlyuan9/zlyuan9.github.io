@@ -3,11 +3,10 @@
    status, theme toggle, and draggable windows.
    ============================================================ */
 (function () {
-  // --- Workspaces shown as tags in the bar (blog hidden for now) ---
+  // --- Workspaces shown as tags in the bar ---
   const PAGES = {
     about:    { tag: '1', label: 'about',    href: '/index.html'    },
     projects: { tag: '2', label: 'projects', href: '/projects.html' }
-    // blog:  { tag: '3', label: 'blog',     href: '/blog.html'     }  // hidden for now
   };
 
   const currentPage = (document.body.dataset.page) || 'about';
