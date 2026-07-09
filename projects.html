@@ -50,28 +50,6 @@
   <img class="bg-art art-butterfly" src="/assets/butterfly.png" alt="" aria-hidden="true">
   <img class="bg-art art-depth" src="/assets/depth_shape.png" alt="" aria-hidden="true">
 
-  <div class="corner">
-    <div class="clock-box">
-      <svg viewBox="0 0 100 100" aria-label="analog clock">
-        <defs>
-          <!-- Grainy ink: fractal noise displaces every stroke edge into gritty,
-               lo-fi ripples reminiscent of a low-res pixel bitmap. -->
-          <filter id="clockGrain" x="-15%" y="-15%" width="130%" height="130%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-        <g filter="url(#clockGrain)">
-          <g id="clockTicks"></g>
-          <polygon id="handHour" class="clock-hand"/>
-          <polygon id="handMin"  class="clock-hand"/>
-          <polygon id="handSec"  class="clock-hand"/>
-          <circle class="clock-pin" cx="50" cy="50" r="1.8"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-
   <!-- ===== Content window ===== -->
   <main id="desktop">
     <section class="win">
