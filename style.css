@@ -89,8 +89,8 @@ a { color: inherit; }
 }
 :root[data-theme="dark"] .bg-art { filter: brightness(0) invert(1); }
 
-.art-plant    { bottom: 0; left: 0; height: min(90vh, 800px); opacity: 0.12; }
-.art-butterfly{ top: calc(var(--bar-h) + 40px); right: 6vw; width: 74px; opacity: 0.5; }
+.art-plant    { bottom: 0; left: 0; height: min(90vh, 800px); opacity: 0.20; }
+.art-butterfly{ top: calc(var(--bar-h) + 40px); right: 6vw; width: 100px; opacity: 0.5; }
 
 /* "Symbol of Depth" — concentric arcs radiating from the bottom-right corner.
    Edges are roughened by an SVG turbulence filter (#depthGrain) so they read
@@ -104,7 +104,7 @@ a { color: inherit; }
 }
 /* Dark-on-dark contrast is perceptually weaker, so lift the depth art (and its
    specks) a bit to keep the grain readable against the dark background. */
-:root[data-theme="dark"] .art-depth { filter: url(#depthGrain) brightness(0) invert(1); opacity: 0.2; }
+:root[data-theme="dark"] .art-depth { filter: url(#depthGrain) brightness(0) invert(1); opacity: 0.3; }
 
 /* Clock — fixed bottom-right on the projects page. */
 .corner {
